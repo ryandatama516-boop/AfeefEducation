@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afeef Education - Order Management</title>
+    <style>
+        /* --- PALET WARNA LOGO --- */
+        :root {
+            --primary-green: #1C564F; /* Hijau gelap logo */
+            --primary-gold: #C18F3B;  /* Emas logo */
+            --hover-green: #133D38;
+            --hover-gold: #A37830;
+            --bg-color: #F7F9F8;
+            --text-main: #334155;
+            --border-color: #cbd5e1;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            margin: 0; 
+            padding: 30px 20px; 
+            display: flex; 
+            justify-content: center; 
+        }
+        
+        .container { 
+            background-color: #ffffff; 
+            width: 100%; 
+            max-width: 700px; 
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(28, 86, 79, 0.08); 
+            border-top: 5px solid var(--primary-gold);
+        }
+
+        /* --- HEADER & LOGO --- */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .brand-header img {
+            max-height: 80px; /* Ukuran logo */
+            margin-bottom: 10px;
+        }
+        .brand-header h2 { 
+            color: var(--primary-green); 
+            margin: 0; 
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        /* --- FORM LAYOUT --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { margin-bottom: 18px; }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: var(--primary-green); 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1.5px solid var(--border-color); 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 14px; 
+            color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: var(--primary-gold); 
+            box-shadow: 0 0 0 3px rgba(193, 143, 59, 0.15); 
+        }
+        
+        /* --- DOKUMEN BOX --- */
+        .dokumen-box { 
+            background-color: #FAFAFA; 
+            border: 1px dashed var(--primary-gold); 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 15px; 
+            position: relative; 
+            transition: all 0.3s;
+        }
+        .dokumen-box:hover {
+            border-style: solid;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        
+        /* --- BUTTONS --- */
+        .btn-tambah { 
+            background-color: var(--primary-gold); 
+            color: white; 
+            padding: 10px 16px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 13px; 
+            font-weight: bold; 
+            margin-bottom: 25px; 
+            transition: background-color 0.2s;
+        }
+        .btn-tambah:hover { background-color: var(--hover-gold); }
+        
+        .btn-hapus { 
+            position: absolute; 
+            top: -12px; 
+            right: -10px; 
+            background-color: #ef4444; 
+            color: white; 
+            border: none; 
+            border-radius: 20px; 
+            padding: 4px 12px; 
+            cursor: pointer; 
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+        }
+        
+        button[type="submit"] { 
+            width: 100%; 
+            padding: 16px; 
+            background-color: var(--primary-green); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            transition: background-color 0.2s;
+            letter-spacing: 1px;
+        }
+        button[type="submit"]:hover { background-color: var(--hover-green); }
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        
+        /* --- WHATSAPP RESULT --- */
+        #wa-result { display: none; margin-top: 30px; padding-top: 25px; border-top: 2px dashed #e2e8f0; }
+        .wa-box { 
+            background-color: #F0FDF4; /* Hijau muda khas WA */
+            border: 1px solid #25D366; 
+            padding: 20px; 
+            border-radius: 10px; 
+            font-family: monospace; 
+            font-size: 14px; 
+            white-space: pre-wrap; 
+            color: #166534; 
+            margin-bottom: 15px; 
+            line-height: 1.5;
+        }
+        .btn-wa { 
+            background-color: #25D366; /* Warna asli tombol WhatsApp */
+            width: 100%; 
+            padding: 14px; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 15px;
+            transition: background-color 0.2s;
+        }
+        .btn-wa:hover { background-color: #128C7E; }
+
+        /* --- FOOTER --- */
+        .app-footer {
+            text-align: center;
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+        .app-footer span {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand-header">
+        <!-- GAMBAR LOGO DIAMBIL DARI FILE LOKAL -->
+        <img src="Afeef Education Logo png-1.png" alt="Afeef Education Logo">
+        <h2>INPUT ORDER TERJEMAHAN</h2>
+    </div>
+    
+    <form id="orderForm">
+        <!-- DETAIL KLIEN & TANGGAL -->
+        <div class="grid-2">
+            <div class="form-group"><label>Nama Client</label><input type="text" name="namaClient" id="namaClient" placeholder="Masukkan nama..." required></div>
+            <div class="form-group"><label>Nama Client Arab</label><input type="text" name="namaClientArab" id="namaClientArab" placeholder="Teks Arab (Opsional)..."></div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group"><label>Paket</label>
+                <select name="paket" id="paket">
+                    <option value="1 Hari">1 Hari</option><option value="3 Hari">3 Hari</option><option value="5 Hari">5 Hari</option><option value="7 Hari">7 Hari</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Status Pembayaran</label>
+                <select name="statusPembayaran" id="statusPembayaran">
+                    <option value="Belum Lunas">Belum Lunas</option><option value="Lunas">Lunas</option>
+                </select>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group"><label>Berkas Masuk</label><input type="date" name="tanggalMasuk" id="tanggalMasuk" required></div>
+            <div class="form-group"><label>Deadline Terjemahan</label><input type="date" name="deadline" id="deadline" required></div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group"><label>Kirim Ke Client</label><input type="date" name="kirimBerkas" id="kirimBerkas"></div>
+            <div class="form-group"><label>Keterangan</label>
+                <select name="keterangan" id="keterangan">
+                    <option value="Proses">Proses</option><option value="Selesai">Selesai</option>
+                </select>
+            </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1.5px solid #e2e8f0; margin: 30px 0;">
+        
+        <!-- DAFTAR DOKUMEN DINAMIS -->
+        <h3 style="color: var(--primary-green); margin-top: 0; margin-bottom: 20px;">Detail Dokumen</h3>
+        <div id="dokumenContainer">
+            <div class="dokumen-box">
+                <div class="grid-2">
+                    <div class="form-group"><label>Dokumen</label>
+                        <select class="input-dokumen" required>
+                            <option value="IJAZAH">IJAZAH</option><option value="TRANSKIP NILAI">TRANSKIP NILAI</option>
+                            <option value="SURKES">SURKES</option><option value="SKCK">SKCK</option>
+                            <option value="KTP">KTP</option><option value="AKTE KELAHIRAN">AKTE KELAHIRAN</option>
+                            <option value="SURAT REKOMENDASI">SURAT REKOMENDASI</option><option value="SERTIFIKAT CV">SERTIFIKAT CV</option>
+                            <option value="SURAT KETERANGAN">SURAT KETERANGAN</option><option value="DAFTAR NILAI">DAFTAR NILAI</option>
+                            <option value="PIAGAM">PIAGAM</option><option value="IJAZAH S1">IJAZAH S1</option>
+                            <option value="TRANSKIP S1">TRANSKIP S1</option><option value="SKL">SKL</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Penerjemah</label>
+                        <select class="input-penerjemah" required>
+                            <option value="AZKA AFIF">AZKA AFIF</option><option value="IBRA SAMUDRA">IBRA SAMUDRA</option>
+                            <option value="KAUTSAR">KAUTSAR</option><option value="FARREL BELVA">FARREL BELVA</option>
+                            <option value="HAIDAR">HAIDAR</option><option value="MAUL">MAUL</option>
+                            <option value="TSAQIF">TSAQIF</option><option value="NABIL NABHAN">NABIL NABHAN</option>
+                            <option value="IQBAL RIFAI">IQBAL RIFAI</option><option value="DZAKI FF">DZAKI FF</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;"><label>Link Drive / Kolom Berkas</label><input type="text" class="input-berkas" placeholder="Tempel link file di sini..."></div>
+            </div>
+        </div>
+
+        <button type="button" class="btn-tambah" onclick="tambahDokumen()">+ Tambah Dokumen Lain</button>
+        <button type="submit" id="btnSubmit">SIMPAN DATA ORDER</button>
+    </form>
+
+    <div id="wa-result">
+        <label style="color: #128C7E;">Format WhatsApp Siap Kirim:</label>
+        <div class="wa-box" id="waText"></div>
+        <button type="button" class="btn-wa" onclick="copyToClipboard()" id="btnCopy">📋 Salin Teks WhatsApp</button>
+    </div>
+
+    <!-- LETAKKAN KODE FOOTER DI SINI -->
+    <div class="app-footer">
+        &copy; 2026 <span>Afeef Education</span> Internal System. All rights reserved.<br>
+        v1.0 &bull; Secure Order Management
+    </div>
+
+<script>
+    // MASUKKAN LINK /exec APPS SCRIPT BARU DI BAWAH INI
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx6U_vz3mHmq6yotiyEF5SHL2nas2eF3kWV82RMEJ578qMufCi6HXteaVBI8fQATUX7/exec'; // <-- Jangan lupa ganti ini
+    
+    // Fitur Tambah Dokumen
+    function tambahDokumen() {
+        const container = document.getElementById('dokumenContainer');
+        const template = container.children[0].cloneNode(true);
+        template.querySelector('.input-berkas').value = '';
+        
+        const btnHapus = document.createElement('button');
+        btnHapus.type = 'button';
+        btnHapus.className = 'btn-hapus';
+        btnHapus.innerText = 'X';
+        btnHapus.title = 'Hapus Dokumen ini';
+        btnHapus.onclick = function() { this.parentElement.remove(); };
+        template.appendChild(btnHapus);
+        
+        container.appendChild(template);
+    }
+
+    const form = document.getElementById('orderForm');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const waResult = document.getElementById('wa-result');
+    const waText = document.getElementById('waText');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = 'Menyimpan ke Spreadsheet...';
+        waResult.style.display = 'none';
+
+        const listDokumen = [];
+        document.querySelectorAll('.dokumen-box').forEach(box => {
+            listDokumen.push({
+                dokumen: box.querySelector('.input-dokumen').value,
+                penerjemah: box.querySelector('.input-penerjemah').value,
+                kolomBerkas: box.querySelector('.input-berkas').value
+            });
+        });
+
+        const formData = new FormData(form);
+        formData.append('items', JSON.stringify(listDokumen));
+
+        fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => {
+                btnSubmit.innerText = 'Berhasil Disimpan! ✔️';
+                setTimeout(() => { btnSubmit.innerText = 'SIMPAN DATA ORDER'; btnSubmit.disabled = false; }, 3000);
+                generateWAText(listDokumen); 
+                
+                form.reset();     
+                const container = document.getElementById('dokumenContainer');
+                while (container.children.length > 1) { container.removeChild(container.lastChild); }
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                btnSubmit.disabled = false;
+                btnSubmit.innerText = 'Gagal menyimpan. Coba lagi.';
+            });
+    });
+
+    function generateWAText(listDokumen) {
+        const client = document.getElementById('namaClient').value;
+        const clientArab = document.getElementById('namaClientArab').value;
+        const paket = document.getElementById('paket').value;
+        const pembayaran = document.getElementById('statusPembayaran').value;
+        const keterangan = document.getElementById('keterangan').value;
+
+        // Bikin list teks dokumen (cth: 1. IJAZAH, 2. TRANSKIP)
+        let teksDokumen = listDokumen.map((item, index) => `${index + 1}. ${item.dokumen}`).join('\n  ');
+
+        const textTemplate = `*INVOICE & DETAIL PESANAN - AFEEF EDUCATION* 🎓\n\n` +
+            `Halo kak *${client}* ${clientArab ? '(' + clientArab + ')' : ''}, berikut detail order terjemahannya:\n\n` +
+            `📄 *Daftar Dokumen:*\n  ${teksDokumen}\n\n` +
+            `📦 *Paket:* ${paket}\n` +
+            `💰 *Status Pembayaran:* ${pembayaran}\n` +
+            `🔄 *Status Pengerjaan:* ${keterangan}\n\n` +
+            `Mohon ditunggu sesuai estimasi paket yang dipilih. Terima kasih!`;
+
+        waText.innerText = textTemplate;
+        waResult.style.display = 'block';
+    }
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText(waText.innerText).then(() => {
+            const btnCopy = document.getElementById('btnCopy');
+            btnCopy.innerText = '✔️ Tersalin ke Clipboard!';
+            setTimeout(() => { btnCopy.innerText = '📋 Salin Teks WhatsApp'; }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
